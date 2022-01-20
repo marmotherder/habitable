@@ -7,6 +7,8 @@ import (
 	"os"
 	"path/filepath"
 	"syscall"
+
+	"github.com/marmotherder/habitable/common"
 )
 
 func CopyDirectory(scrDir, dest string, exclusions ...string) error {
@@ -60,7 +62,8 @@ func CopyDirectory(scrDir, dest string, exclusions ...string) error {
 		}
 
 		if err := os.Lchown(destPath, int(stat.Uid), int(stat.Gid)); err != nil {
-			return err
+			common.AppLogger.Warn("failed to change permissions on %s", destPath)
+			common.AppLogger.Warn(err.Error())
 		}
 
 		isSymlink := entry.Mode()&os.ModeSymlink != 0
