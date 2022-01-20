@@ -52,7 +52,7 @@ func updateHashesFile(hashes hashData) error {
 	}
 
 	hashesFile := common.TempBuildDir() + "/" + "hashes.json"
-	if err = os.WriteFile(hashesFile, updatedHashes, 0555); err != nil {
+	if err = os.WriteFile(hashesFile, updatedHashes, 0640); err != nil {
 		common.AppLogger.Error("failed to update hashes.json")
 		return err
 	}

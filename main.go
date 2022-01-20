@@ -35,7 +35,7 @@ func main() {
 
 	common.AppLogger.Info("constructing .habitable directory in current location")
 	for _, path := range []string{common.TempBuildDir(), common.TempPluginsDir(), common.TempScriptsDir()} {
-		if err := os.MkdirAll(path, 0744); err != nil {
+		if err := os.MkdirAll(path, 0740); err != nil {
 			common.AppLogger.Fatal(common.SetupError, err.Error())
 		}
 	}

@@ -34,7 +34,7 @@ func generateJavascriptScripts(scriptDirs []string) error {
 	}
 
 	common.AppLogger.Trace("creating %s", buildDir)
-	if err := os.MkdirAll(buildDir, 0744); err != nil {
+	if err := os.MkdirAll(buildDir, 0740); err != nil {
 		common.AppLogger.Error("failed to create javascript build subdir")
 		return err
 	}
@@ -49,7 +49,7 @@ func generateJavascriptScripts(scriptDirs []string) error {
 
 	for name, data := range buildFiles {
 		common.AppLogger.Trace("writing file %s to directory %s", name, buildDir)
-		if err := os.WriteFile(buildDir+"/"+name, data, 0744); err != nil {
+		if err := os.WriteFile(buildDir+"/"+name, data, 0740); err != nil {
 			common.AppLogger.Error("failed to setup javascript build files")
 			return err
 		}
@@ -58,7 +58,7 @@ func generateJavascriptScripts(scriptDirs []string) error {
 	for idx, scriptDir := range scriptDirs {
 		incBuildDir := fmt.Sprintf("%s/%d", buildDir, idx)
 		common.AppLogger.Debug("copying %s to %s for build", scriptDir, incBuildDir)
-		if err := os.Mkdir(incBuildDir, 0744); err != nil {
+		if err := os.Mkdir(incBuildDir, 0740); err != nil {
 			common.AppLogger.Error("could not create directory %d to js build dir", idx)
 			return err
 		}
