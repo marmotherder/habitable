@@ -28,7 +28,7 @@ runs:
     shell: bash
 
   - name: Move to artifact
-    run: mv habitable /tmp/release/habitable_${{ inputs.os }}_${{ inputs.arch }}.so
+    run: mv habitable /tmp/release/habitable_${{ inputs.os }}_${{ inputs.arch }}
     shell: bash
 
   - name: Test
