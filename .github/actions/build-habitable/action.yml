@@ -1,0 +1,42 @@
+name: Build Habitable
+description: Build habitable
+inputs:
+  os:
+    description: Build operating system
+    required: true
+  arch:
+    description: Build architecture
+    required: true
+runs:
+  using: composite
+  steps:
+
+  - name: Set up Go
+    uses: actions/setup-go@v2
+    with:
+      go-version: 1.17.6
+
+  - name: Build
+    run: go build
+    env:
+      GOARCH: ${{ inputs.arch }}
+      CGO_ENABLED: 1
+    shell: bash
+
+  - name: Create release dir
+    run: mkdir -p /tmp/release
+    shell: bash
+
+  - name: Move to artifact
+    run: mv habitable /tmp/release/habitable_${{ inputs.os }}_${{ inputs.arch }}.so
+    shell: bash
+
+  - name: Test
+    run: go test
+    shell: bash
+
+  - name: Release
+    uses: softprops/action-gh-release@v0.1.14
+    if: startsWith(github.ref, 'refs/tags/')
+    with:
+      files: /tmp/release/**/*
