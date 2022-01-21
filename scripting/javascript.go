@@ -165,6 +165,11 @@ function walkDir(walkPath) {
     if (fs.lstatSync(absPath).isDirectory()) {
       walkDir(absPath);
     } else if (file !== 'webpack.js' && file !== 'babel.config.js' && file.endsWith('.js')) {
+	  const injectPath = walkPath+'/__habitable_init__.js';
+	  if (walkPath !== __dirname && !fs.existsSync(injectPath)) {
+		fs.copyFileSync(__dirname+'/index.js', injectPath);
+		entries.push(injectPath);
+	  }
       entries.push(absPath);
     }
   })
