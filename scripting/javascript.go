@@ -25,6 +25,12 @@ func generateJavascriptScripts(scriptDirs []string) error {
 		return nil
 	}
 
+	for _, scriptDir := range scriptDirs {
+		if _, _, err := command.RunCommand(scriptDir, "npm", "i"); err != nil {
+			return err
+		}
+	}
+
 	common.AppLogger.Info("scripts in defined folders have changed, creating a javascript build environment")
 	buildDir := common.TempBuildDir() + "/" + "javascript"
 	common.AppLogger.Trace("cleaning %s", buildDir)
@@ -69,10 +75,10 @@ func generateJavascriptScripts(scriptDirs []string) error {
 	}
 
 	common.AppLogger.Debug("starting javascript build process")
-	if err := command.RunCommand(buildDir, "npm", "i"); err != nil {
+	if _, _, err := command.RunCommand(buildDir, "npm", "i"); err != nil {
 		return err
 	}
-	if err := command.RunCommand(buildDir, "npm", "run", "build"); err != nil {
+	if _, _, err := command.RunCommand(buildDir, "npm", "run", "build"); err != nil {
 		return err
 	}
 
