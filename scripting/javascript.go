@@ -88,7 +88,10 @@ func generateJavascriptScripts(scriptDirs []string) error {
 const babel = `{
   "presets": [
 	[
-	"@babel/preset-env"
+	  "@babel/preset-env",
+	  {
+	    "browserslistEnv": "> 1%"
+	  }
 	]
   ]
 }`

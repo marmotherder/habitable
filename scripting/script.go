@@ -79,7 +79,7 @@ func LoadScripts(dirs ...string) error {
 		if !content.IsDir() {
 			ext := filepath.Ext(content.Name())
 			switch ext {
-			case ".js":
+			case ".js", ".jsm", ".ts":
 				common.AppLogger.Debug("adding processed javascript script %s to loader", content.Name())
 				scripts[content.Name()] = &javascriptScript{
 					Path:      fmt.Sprintf("%s/%s", common.TempScriptsDir(), content.Name()),
