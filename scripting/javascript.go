@@ -46,11 +46,11 @@ func generateJavascriptScripts(scriptDirs []string) error {
 	}
 
 	buildFiles := map[string][]byte{
-		".babelrc":      []byte(babel),
-		"index.ts":      []byte(index),
-		"package.json":  []byte(packageJson),
-		"tsconfig.json": []byte(tsconfig),
-		"webpack.js":    []byte(webpack),
+		"babel.config.js": []byte(babel),
+		"index.ts":        []byte(index),
+		"package.json":    []byte(packageJson),
+		"tsconfig.json":   []byte(tsconfig),
+		"webpack.js":      []byte(webpack),
 	}
 
 	for name, data := range buildFiles {
@@ -85,15 +85,19 @@ func generateJavascriptScripts(scriptDirs []string) error {
 	return nil
 }
 
-const babel = `{
-  "presets": [
-	[
-	  "@babel/preset-env",
-	  {
-	    "browserslistEnv": "> 1%"
-	  }
+const babel = `'use strict'
+module.exports = function(api) {
+  api.cache(true);
+
+  const presets = [
+    [
+	  "@babel/preset-env"
 	]
-  ]
+  ];
+
+  return {
+	presets
+  }
 }`
 
 const index = `require("core-js/stable")
@@ -160,7 +164,7 @@ function walkDir(walkPath) {
     }
     if (fs.lstatSync(absPath).isDirectory()) {
       walkDir(absPath);
-    } else if (file !== 'webpack.js' && file.endsWith('.js')) {
+    } else if (file !== 'webpack.js' && file !== 'babel.config.js' && file.endsWith('.js')) {
       entries.push(absPath);
     }
   })
